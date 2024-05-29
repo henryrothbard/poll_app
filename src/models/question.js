@@ -5,8 +5,8 @@ const QuestionSchema = new mongoose.Schema({
     anonymous: Boolean,
     question: { type: String, required: true },
     date: { type: Date, default: Date.now },
-    likes: { type: Number, default: 0},
-    votes: { type: Map, of: Number, default: {yes: 0, no: 0}},
+    likes: { type: Number, default: 0 },
+    votes: { type: Map, of: Number, default: () => new Map([['yes', 0], ['no', 0]])},
 });
 
 UserSchema.methods.verifyPassword = function(password) {

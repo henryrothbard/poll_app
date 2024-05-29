@@ -11,14 +11,14 @@ const asyncHandler = require('../utils/asyncHandler');
 
 router.post('/post_question', asyncHandler(async (req, res) => {
     res.status(204);
-}))
+}));
 
 router.get('/question/:id', asyncHandler(async (req, res) => {
     res.status(204);
-}))
+}));
 
-router.post('/question/:id', asyncHandler(async (req, res) => {
+router.post('/question/:id/vote', asyncHandler(async (req, res) => {
     res.status(204);
-}))
+}));
 
 module.exports = router;
