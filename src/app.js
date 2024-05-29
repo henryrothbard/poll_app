@@ -1,24 +1,30 @@
 require('dotenv').config();
-require('./configs/passport-config');
 const passport = require('passport');
-const session = require('express-session');
 const express = require('express');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+const logger = require('morgan');
+
+const api = require('./routes/api');
+const auth = require('./routes/auth');
+
 const app = express();
-const api = require('./routes/api')
-const auth = require('./routes/auth')
 const PORT = process.env.PORT || 3000;
 
+app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(passport.initialize());
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: {secure: false}
+  store: MongoStore.create({ 
+    mongoUrl: (process.env.MONGO_URI || "mongodb://mongo:27017/app"),
+    collectionName: 'sessions'
+  })
 }));
-
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.authenticate('session'));
 
 app.use('/api', api);
 app.use('/auth', auth);
