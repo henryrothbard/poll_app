@@ -73,6 +73,6 @@ function authenticate(req, res, next) {
     return res.status(401).send('Unauthorized');
 }
 
-router.get('/test', authenticate, (req, res) => res.send(req.user));
+router.get('/test', authenticate, (req, res) => res.send({user: req.user}));
 
 module.exports = router;
